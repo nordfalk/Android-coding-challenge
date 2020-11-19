@@ -4,7 +4,7 @@ Ideen med denne opgave er at vurdere hvordan du vil udvikle en praktisk Android 
 Din opgave er at lave en lille Android applikation med følgende kravsspecifikation:
 - Den lytter efter din stemme (engelsk er fint)
 - På din opfordring kan den fortælle dig hvordan vejret er lige nu
-- Der skal være mere end én Activity, og brug gerne fragments hvis du synes
+- Anvend Activity og Fragments som du synes - du må altså selv vælge om du laver en single Activity-app eller ej.
 - Hvordan du håndterer stemmegenkendelse er op til dig, du kan fx. bruge den indbyggede [SpeechRecognizer](https://developer.android.com/reference/android/speech/SpeechRecognizer.html) eller en online service efter eget valg som [Microsoft LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - Brug en vejrservice efter eget valg
 
