@@ -15,11 +15,11 @@
         android:id="@+id/navigation_s2"
         android:name="dk.nordfalk.snakomvejr.ui.s2_test.DashboardFragment"
         android:label="@string/title_s2_test"
-        tools:layout="@layout/s2_dashboard_fragment" />
+        tools:layout="@layout/s2_test_fragment" />
 
     <fragment
         android:id="@+id/navigation_s3"
         android:name="dk.nordfalk.snakomvejr.ui.s3_settings.NotificationsFragment"
         android:label="@string/title_s3_settings"
-        tools:layout="@layout/s3_notifications_fragment" />
+        tools:layout="@layout/s3_settings_fragment" />
 </navigation>
