@@ -1,6 +1,7 @@
 package dk.nordfalk.snakomvejr
 
 import dk.nordfalk.snakomvejr.model.WeatherData
+import dk.nordfalk.snakomvejr.model.WeatherService
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,12 +13,21 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
+    fun testWeather() {
         assertEquals(4, 2 + 2)
 
-        val wd = WeatherData();
-        wd.getDescription( { res: String? -> println("res = $res") })
-        Thread.sleep(1000) // vent på svar
+        var wd : WeatherData? = null;
+        val ws = WeatherService();
+        val sem = java.util.concurrent.Semaphore(0)
+        ws.getWeatherData {
+            res: WeatherData -> println("res = $res")
+            wd = res
+            sem.release()
+        }
+
+
+        sem.acquire() // vent på svar
+        assertEquals("København", wd!!.placename)
 
     }
 }

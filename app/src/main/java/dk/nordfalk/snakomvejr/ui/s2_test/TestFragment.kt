@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dk.nordfalk.snakomvejr.R
 import dk.nordfalk.snakomvejr.VejrSpeechListener
-import dk.nordfalk.snakomvejr.model.WeatherData
+import dk.nordfalk.snakomvejr.model.WeatherService
 import kotlinx.android.synthetic.main.s2_test_fragment.*
 
 class TestFragment : Fragment() {
@@ -83,20 +83,24 @@ class TestFragment : Fragment() {
         if (now - latest<2000) return  //undgå flere kald kort tid efter hinanden
         latest = now
 
-        val w = WeatherData()
+        val w = WeatherService()
         weatherAskedImageView.visibility = View.VISIBLE
         weatherAskedImageView.alpha = 0f;
         weatherAskedImageView.animate().alpha(1f)
         weatherAskedTextView.visibility = View.VISIBLE
         weatherResultTextView.visibility = View.VISIBLE
-        weatherResultTextView.text = "Henter....."
+        weatherResultTextView.text = getString(R.string.getting)
 
-        w.getDescription({
+        w.getWeatherData {
             println(it)
             weatherResultTextView.post {
-                weatherResultTextView.text = it
-                tts.speak("Vejret lige nu er: $it")
+                if (it.description != null) {
+                    weatherResultTextView.text = it.description
+                    tts.speak(getString(R.string.weather_now_is) +" ${it.description}")
+                } else {
+                    weatherAskedTextView.text = getString(R.string.error_network)
+                }
             }
-        })
+        }
     }
 }

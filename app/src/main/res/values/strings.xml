@@ -3,4 +3,7 @@
     <string name="title_s1_start">Start</string>
     <string name="title_s2_test">Prøv det</string>
     <string name="title_s3_settings">Indstillinger</string>
+    <string name="getting">Henter...</string>
+    <string name="error_network">Der skete en fejl - har du netværk?</string>
+    <string name="weather_now_is">"Vejret lige nu er: "</string>
 </resources>
