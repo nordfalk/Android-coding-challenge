@@ -14,6 +14,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 
 class VejrSpeechListenerService : Service() {
+    object state {
+        var isRunning = false
+    }
+
     val TAG = javaClass.name
 
     /**
@@ -29,11 +33,14 @@ class VejrSpeechListenerService : Service() {
             != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "$TAG onCreate mangler tilladelser - stopper", Toast.LENGTH_LONG).show()
             stopSelf();
+        } else {
+            state.isRunning = true
         }
     }
 
     override fun onDestroy() {
         Toast.makeText(this, "$TAG onDestroy", Toast.LENGTH_LONG).show()
+        state.isRunning = false
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

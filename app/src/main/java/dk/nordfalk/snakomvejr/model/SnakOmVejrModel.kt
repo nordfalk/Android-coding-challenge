@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 class SnakOmVejrModel {
-    var serviceActive: Boolean = false
+    var audioPermissionOk: Boolean = false
+    var serviceShouldBeStarted: Boolean = false
+
+
 
 }

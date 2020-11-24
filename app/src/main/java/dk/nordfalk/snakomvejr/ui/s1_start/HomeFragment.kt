@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         App.instance.modelLiveData.observe(viewLifecycleOwner, {
-            if (App.instance.model.serviceActive) {
+            if (App.instance.model.serviceShouldBeStarted) {
                 activeImageView.setImageResource(R.drawable.ic_baseline_cloud_queue_48)
                 activeTextView.text = "Tjenesten er aktiv"
             } else {
@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
 
 
         activeImageView.setOnClickListener {
-            App.instance.model.serviceActive = !App.instance.model.serviceActive
+            App.instance.model.serviceShouldBeStarted = !App.instance.model.serviceShouldBeStarted
             App.instance.modelLiveData.value = "";
         }
 

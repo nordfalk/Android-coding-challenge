@@ -5,10 +5,6 @@ import android.Manifest.permission.RECORD_AUDIO
 import android.content.pm.PackageManager.*
 import android.os.Build
 import android.os.Bundle
-import android.view.MotionEvent
-import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -38,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        App.instance.model.serviceShouldBeStarted = !App.instance.model.serviceShouldBeStarted
+        App.instance.modelLiveData.value = "";
 
         if (ContextCompat.checkSelfPermission(this, RECORD_AUDIO)!= PERMISSION_GRANTED) {
             checkPermission()
