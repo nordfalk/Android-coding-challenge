@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_s1">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="dk.nordfalk.snakomvejr.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_s1"
+        android:name="dk.nordfalk.snakomvejr.ui.s1_start.HomeFragment"
+        android:label="@string/title_s1_start"
+        tools:layout="@layout/s1_start_fragment" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="dk.nordfalk.snakomvejr.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_s2"
+        android:name="dk.nordfalk.snakomvejr.ui.s2_test.DashboardFragment"
+        android:label="@string/title_s2_test"
+        tools:layout="@layout/s2_dashboard_fragment" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="dk.nordfalk.snakomvejr.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_s3"
+        android:name="dk.nordfalk.snakomvejr.ui.s3_settings.NotificationsFragment"
+        android:label="@string/title_s3_settings"
+        tools:layout="@layout/s3_notifications_fragment" />
 </navigation>

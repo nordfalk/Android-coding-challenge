@@ -1,7 +1,8 @@
 package dk.nordfalk.snakomvejr
 
 import android.Manifest
-import android.content.pm.PackageManager
+import android.Manifest.permission.RECORD_AUDIO
+import android.content.pm.PackageManager.*
 import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
@@ -32,14 +33,13 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_s1, R.id.navigation_s2, R.id.navigation_s3
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.RECORD_AUDIO)
-            != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, RECORD_AUDIO)!= PERMISSION_GRANTED) {
             checkPermission()
         }
 
@@ -70,11 +70,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        speechRecognizer!!.destroy()
-    }
-
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ActivityCompat.requestPermissions(
@@ -92,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == RecordAudioRequestCode && grantResults.size > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) Toast.makeText(
+            if (grantResults[0] == PERMISSION_GRANTED) Toast.makeText(
                 this,
                 "Permission Granted",
                 Toast.LENGTH_SHORT

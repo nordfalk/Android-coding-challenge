@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SnakOmVejr</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_s1_start">Start</string>
+    <string name="title_s2_test">Afprøv tale</string>
+    <string name="title_s3_settings">Indstillinger</string>
 </resources>

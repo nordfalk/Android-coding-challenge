@@ -1,4 +1,4 @@
-package dk.nordfalk.snakomvejr.ui.home
+package dk.nordfalk.snakomvejr.ui.s1_start
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
