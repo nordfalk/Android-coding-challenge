@@ -1,12 +1,9 @@
-package dk.nordfalk.snakomvejr.model;
+package dk.nordfalk.snakomvejr.model
 
-public class SnakOmVejrModel {
-    private static SnakOmVejrModel instance = null;
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
+class SnakOmVejrModel {
+    var serviceActive: Boolean = false
 
-
-    public static SnakOmVejrModel getInstance() {
-        if (instance == null) instance = new SnakOmVejrModel();
-        return instance;
-    }
 }

@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import dk.nordfalk.snakomvejr.App
 import dk.nordfalk.snakomvejr.R
+import kotlinx.android.synthetic.main.s1_start_fragment.*
 
 class HomeFragment : Fragment() {
 
@@ -26,6 +28,28 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
+
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        App.instance.modelLiveData.observe(viewLifecycleOwner, {
+            if (App.instance.model.serviceActive) {
+                activeImageView.setImageResource(R.drawable.ic_baseline_cloud_queue_48)
+                activeTextView.text = "Tjenesten er aktiv"
+            } else {
+                activeImageView.setImageResource(R.drawable.ic_baseline_cloud_off_48)
+                activeTextView.text = "Tjenesten er slukket aktiv"
+            }
+        })
+
+
+        activeImageView.setOnClickListener {
+            App.instance.model.serviceActive = !App.instance.model.serviceActive
+            App.instance.modelLiveData.value = "";
+        }
+
     }
 }
