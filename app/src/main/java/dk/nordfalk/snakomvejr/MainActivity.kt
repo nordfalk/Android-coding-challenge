@@ -1,13 +1,9 @@
 package dk.nordfalk.snakomvejr
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -21,7 +17,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,43 +45,25 @@ class MainActivity : AppCompatActivity() {
 
         val editText : EditText = findViewById(R.id.text)
         val micButton : ImageView = findViewById(R.id.button)
-        val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
-        val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        speechRecognizerIntent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-        )
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        speechRecognizer.setRecognitionListener(object : RecognitionListener {
-            override fun onReadyForSpeech(bundle: Bundle) {}
-            override fun onBeginningOfSpeech() {
-                editText.setText("")
-                editText.setHint("Listening...")
-            }
+        val vejrSpeechListener = VejrSpeechListener(this);
 
-            override fun onRmsChanged(v: Float) {}
-            override fun onBufferReceived(bytes: ByteArray) {}
-            override fun onEndOfSpeech() {}
-            override fun onError(i: Int) {}
-            override fun onResults(bundle: Bundle) {
-                micButton.setImageResource(R.drawable.ic_dashboard_black_24dp)
-                val data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                println("XXXXXXXX data = $data")
-                editText.setText(data!![0])
-            }
+        vejrSpeechListener.speechDataCallback = VejrSpeechListener.Callback {
+            editText.setText(it)
+            editText.setHint(if (it==null || it.length==0) "Listening..." else "")
+            println("speechDataCallback $it")
+        }
+        vejrSpeechListener.recognitionEndCallback = VejrSpeechListener.Callback {
+            micButton.setImageResource(R.drawable.ic_home_black_24dp)
+        }
 
-            override fun onPartialResults(bundle: Bundle) {}
-            override fun onEvent(i: Int, bundle: Bundle) {}
-        })
         micButton.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(view: View?, motionEvent: MotionEvent): Boolean {
                 if (motionEvent.action == MotionEvent.ACTION_UP) {
-                    micButton.setImageResource(R.drawable.ic_home_black_24dp)
-                    speechRecognizer.stopListening()
+                    vejrSpeechListener.stop();
                 }
                 if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                     micButton.setImageResource(R.drawable.ic_notifications_black_24dp)
-                    speechRecognizer.startListening(speechRecognizerIntent)
+                    vejrSpeechListener.start();
                 }
                 return false
             }
