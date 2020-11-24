@@ -17,7 +17,7 @@ class ExampleUnitTest {
 
         val wd = WeatherData();
         wd.getDescription( { res: String? -> println("res = $res") })
-        Thread.sleep(1000)
+        Thread.sleep(1000) // vent på svar
 
     }
 }

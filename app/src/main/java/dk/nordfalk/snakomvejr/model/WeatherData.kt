@@ -9,6 +9,13 @@ class WeatherData {
     fun interface WeatherCallback {
         fun callback(res: String?)
     }
+/*
+Ville være en del bedre: https://www.dmi.dk/dmidk_byvejrWS/rest/texts/2610803
+Skyet vejr med lidt regn af og til, især først på dagen, og temp. op omkring 8 grader. Jævn til frisk vind fra sydvest, ved kysterne stedvis op til hård vind, som aftager lidt sidst på dagen. I aften efterhånden mest tørt vejr, og i nat klarer det noget op sydfra. Temp. mellem 6 og 8 grader og let til frisk vind fra sydvest og syd.
+
+ */
+
+
 
     fun getDescription(callback: WeatherCallback) {
 
