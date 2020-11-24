@@ -21,7 +21,7 @@ Skyet vejr med lidt regn af og til, især først på dagen, og temp. op omkring 
 
 
         // http://api.openweathermap.org/data/2.5/weather?q=Copenhagen,dk&lang=da&APPID=37b3dc24f334b47e8a0bc838110e119a
-        val url = "http://api.openweathermap.org/data/2.5/weather?q=Copenhagen,dk&lang=da&APPID=37b3dc24f334b47e8a0bc838110e119a"
+        val url = "https://api.openweathermap.org/data/2.5/weather?q=Copenhagen,dk&lang=da&APPID=37b3dc24f334b47e8a0bc838110e119a"
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
 
