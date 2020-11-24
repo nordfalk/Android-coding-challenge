@@ -85,6 +85,8 @@ class TestFragment : Fragment() {
 
         val w = WeatherData()
         weatherAskedImageView.visibility = View.VISIBLE
+        weatherAskedImageView.alpha = 0f;
+        weatherAskedImageView.animate().alpha(1f)
         weatherAskedTextView.visibility = View.VISIBLE
         weatherResultTextView.visibility = View.VISIBLE
         weatherResultTextView.text = "Henter....."
@@ -93,9 +95,8 @@ class TestFragment : Fragment() {
             println(it)
             weatherResultTextView.post {
                 weatherResultTextView.text = it
-                tts.speak(it)
+                tts.speak("Vejret lige nu er: $it")
             }
         })
-
     }
 }
