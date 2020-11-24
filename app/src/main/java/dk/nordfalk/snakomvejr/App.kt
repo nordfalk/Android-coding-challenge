@@ -19,6 +19,7 @@ class App : Application() {
         lateinit var instance: App
             private set
     }
+
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -37,16 +38,26 @@ class App : Application() {
 
         modelLiveData.observeForever {
             println("model = ${model.audioPermissionOk} ${model.serviceShouldBeStarted} ${VejrSpeechListenerService.state.isRunning}")
+            //Exception().printStackTrace()
             if (model.serviceShouldBeStarted && model.audioPermissionOk && !VejrSpeechListenerService.state.isRunning) {
+                println("App startService")
                 startService(Intent(this, VejrSpeechListenerService::class.java))
             }
 
             if (VejrSpeechListenerService.state.isRunning && !model.serviceShouldBeStarted) {
+                println("App stopService")
                 stopService(Intent(this, VejrSpeechListenerService::class.java))
             }
         }
 
 
+    }
+
+    fun onStopCalled() {
+        val gson = Gson()
+        val json = gson.toJson(model)
+        println("JSON streng = $json")
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString("model", json).apply()
     }
 
 }

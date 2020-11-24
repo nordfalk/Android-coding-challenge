@@ -64,8 +64,7 @@ class TestFragment : Fragment() {
             }
         })
 
-        tts =
-            VejrTekstTilTale(requireContext());
+        tts = VejrTekstTilTale(requireContext());
 
 
         return root

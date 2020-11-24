@@ -46,4 +46,8 @@ public class VejrTekstTilTale implements TextToSpeech.OnInitListener {
         if (initialiseret) tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
         else pendingText = text;
     }
+
+    public void destroy() {
+        tts.shutdown();
+    }
 }

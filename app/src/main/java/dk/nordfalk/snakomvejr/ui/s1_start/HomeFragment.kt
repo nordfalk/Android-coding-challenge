@@ -4,31 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import dk.nordfalk.snakomvejr.App
 import dk.nordfalk.snakomvejr.R
 import kotlinx.android.synthetic.main.s1_start_fragment.*
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.s1_start_fragment, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-
         return root
     }
 
@@ -41,7 +30,7 @@ class HomeFragment : Fragment() {
                 activeTextView.text = "Tjenesten er aktiv"
             } else {
                 activeImageView.setImageResource(R.drawable.ic_baseline_cloud_off_48)
-                activeTextView.text = "Tjenesten er slukket aktiv"
+                activeTextView.text = "Tjenesten er slukket"
             }
         })
 

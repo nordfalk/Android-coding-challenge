@@ -35,9 +35,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        App.instance.model.serviceShouldBeStarted = !App.instance.model.serviceShouldBeStarted
-        App.instance.modelLiveData.value = "";
-
         if (ContextCompat.checkSelfPermission(this, RECORD_AUDIO)!= PERMISSION_GRANTED) {
             checkPermission()
         }
@@ -62,9 +59,14 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == RecordAudioRequestCode && grantResults.size > 0) {
             if (grantResults[0] == PERMISSION_GRANTED) Toast.makeText(
                 this,
-                "Permission Granted",
+                "Audio permission Granted",
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        App.instance.onStopCalled()
     }
 }

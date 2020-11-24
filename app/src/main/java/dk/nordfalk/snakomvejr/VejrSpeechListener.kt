@@ -82,4 +82,8 @@ class VejrSpeechListener {
         speechRecognizer.stopListening()
     }
 
+    fun destroy() {
+        speechRecognizer.destroy()
+    }
+
 }
