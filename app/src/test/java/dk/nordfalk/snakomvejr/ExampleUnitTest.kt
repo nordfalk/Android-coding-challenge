@@ -1,5 +1,6 @@
 package dk.nordfalk.snakomvejr
 
+import dk.nordfalk.snakomvejr.model.WeatherData
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +14,10 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+
+        val wd = WeatherData();
+        wd.getDescription( { res: String? -> println("res = $res") })
+        Thread.sleep(1000)
+
     }
 }
