@@ -6,7 +6,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -17,6 +16,9 @@ import kotlinx.android.synthetic.main.s2_test_fragment.*
 
 class TestFragment : Fragment() {
 
+
+    private var latest: Long = 0
+    private lateinit var tts: VejrTekstTilTale
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -36,6 +38,7 @@ class TestFragment : Fragment() {
             textView2.setHint(if (it==null || it.length==0) "Listening..." else "")
             println("speechDataCallback $it")
             if (it?.toLowerCase()!!.contains("vejr")) {
+                vejrSpeechListener.stop()
                 startVejr()
             }
         }
@@ -45,10 +48,6 @@ class TestFragment : Fragment() {
 
         micButton.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(view: View?, motionEvent: MotionEvent): Boolean {
-                if (motionEvent.action == MotionEvent.ACTION_UP) {
-                    vejrSpeechListener.stop();
-                    micButton.animate().scaleX(1f).scaleY(1f).setDuration(100)
-                }
                 if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                     micButton.setImageResource(R.drawable.ic_baseline_hearing_48)
                     micButton.animate().scaleX(1.5f).scaleY(1.5f).setInterpolator(OvershootInterpolator())
@@ -57,9 +56,16 @@ class TestFragment : Fragment() {
                         }
                     vejrSpeechListener.start();
                 }
+                if (motionEvent.action == MotionEvent.ACTION_UP) {
+                    vejrSpeechListener.stop();
+                    micButton.animate().scaleX(1f).scaleY(1f).setDuration(100)
+                }
                 return false
             }
         })
+
+        tts =
+            VejrTekstTilTale(requireContext());
 
 
         return root
@@ -73,6 +79,10 @@ class TestFragment : Fragment() {
     }
 
     private fun startVejr() {
+        val now = System.currentTimeMillis();
+        if (now - latest<2000) return  //undgå flere kald kort tid efter hinanden
+        latest = now
+
         val w = WeatherData()
         weatherAskedImageView.visibility = View.VISIBLE
         weatherAskedTextView.visibility = View.VISIBLE
@@ -81,7 +91,10 @@ class TestFragment : Fragment() {
 
         w.getDescription({
             println(it)
-            weatherResultTextView.post { weatherResultTextView.text = it }
+            weatherResultTextView.post {
+                weatherResultTextView.text = it
+                tts.speak(it)
+            }
         })
 
     }
