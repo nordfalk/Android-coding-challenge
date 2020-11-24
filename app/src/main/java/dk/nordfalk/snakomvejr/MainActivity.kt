@@ -42,32 +42,6 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, RECORD_AUDIO)!= PERMISSION_GRANTED) {
             checkPermission()
         }
-
-        val editText : EditText = findViewById(R.id.text)
-        val micButton : ImageView = findViewById(R.id.button)
-        val vejrSpeechListener = VejrSpeechListener(this);
-
-        vejrSpeechListener.speechDataCallback = VejrSpeechListener.Callback {
-            editText.setText(it)
-            editText.setHint(if (it==null || it.length==0) "Listening..." else "")
-            println("speechDataCallback $it")
-        }
-        vejrSpeechListener.recognitionEndCallback = VejrSpeechListener.Callback {
-            micButton.setImageResource(R.drawable.ic_home_black_24dp)
-        }
-
-        micButton.setOnTouchListener(object : View.OnTouchListener {
-            override fun onTouch(view: View?, motionEvent: MotionEvent): Boolean {
-                if (motionEvent.action == MotionEvent.ACTION_UP) {
-                    vejrSpeechListener.stop();
-                }
-                if (motionEvent.action == MotionEvent.ACTION_DOWN) {
-                    micButton.setImageResource(R.drawable.ic_notifications_black_24dp)
-                    vejrSpeechListener.start();
-                }
-                return false
-            }
-        })
     }
 
     private fun checkPermission() {
