@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_s2"
-        android:name="dk.nordfalk.snakomvejr.ui.s2_test.DashboardFragment"
+        android:name="dk.nordfalk.snakomvejr.ui.s2_test.TestFragment"
         android:label="@string/title_s2_test"
         tools:layout="@layout/s2_test_fragment" />
 

@@ -10,12 +10,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import dk.nordfalk.snakomvejr.R
 import dk.nordfalk.snakomvejr.VejrSpeechListener
 
-class DashboardFragment : Fragment() {
+class TestFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -24,15 +22,16 @@ class DashboardFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.s2_test_fragment, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
 
-        val editText : EditText = root.findViewById(R.id.text)
+        val textView2 : TextView = root.findViewById(R.id.textView2)
         val micButton : ImageView = root.findViewById(R.id.button)
+
+
         val vejrSpeechListener = VejrSpeechListener(requireActivity());
 
         vejrSpeechListener.speechDataCallback = VejrSpeechListener.Callback {
-            editText.setText(it)
-            editText.setHint(if (it==null || it.length==0) "Listening..." else "")
+            textView2.setText(it)
+            textView2.setHint(if (it==null || it.length==0) "Listening..." else "")
             println("speechDataCallback $it")
         }
         vejrSpeechListener.recognitionEndCallback = VejrSpeechListener.Callback {
@@ -43,6 +42,7 @@ class DashboardFragment : Fragment() {
             override fun onTouch(view: View?, motionEvent: MotionEvent): Boolean {
                 if (motionEvent.action == MotionEvent.ACTION_UP) {
                     vejrSpeechListener.stop();
+                    micButton.animate().scaleX(1f).scaleY(1f).setDuration(100)
                 }
                 if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                     micButton.setImageResource(R.drawable.ic_baseline_hearing_48)

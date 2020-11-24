@@ -8,11 +8,11 @@
 
     <TextView
         android:id="@+id/text_home"
-        android:text="blabla"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="116dp"
+        android:text="blabla"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,10 +20,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_foreground"
-        app:srcCompat="@drawable/ic_launcher_foreground"
+        android:layout_width="148dp"
+        android:layout_height="148dp"
+        app:srcCompat="@drawable/ic_baseline_cloud_queue_48"
         tools:layout_editor_absoluteX="138dp"
         tools:layout_editor_absoluteY="15dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
