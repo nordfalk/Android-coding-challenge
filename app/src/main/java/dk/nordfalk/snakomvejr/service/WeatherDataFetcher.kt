@@ -1,4 +1,4 @@
-package dk.nordfalk.snakomvejr.model
+package dk.nordfalk.snakomvejr.service
 
 import okhttp3.*
 import org.json.JSONObject
@@ -6,7 +6,14 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
-class WeatherService {
+class WeatherDataFetcher {
+
+    data class WeatherData(
+            val description: String? = null,
+            val placename: String? = null,
+            val error: String? = null,
+    )
+
 
     fun interface WeatherCallback {
         fun callback(res: WeatherData)

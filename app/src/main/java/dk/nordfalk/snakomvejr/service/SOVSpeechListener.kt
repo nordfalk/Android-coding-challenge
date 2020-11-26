@@ -1,4 +1,4 @@
-package dk.nordfalk.snakomvejr
+package dk.nordfalk.snakomvejr.service
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,7 @@ import android.speech.RecognizerIntent.*
 import android.speech.SpeechRecognizer
 import java.util.*
 
-class VejrSpeechListener {
+class SOVSpeechListener {
 
     fun interface Callback {
         fun callback(res: String?)

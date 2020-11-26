@@ -16,7 +16,7 @@
         android:theme="@style/Theme.SnakOmVejr"
         android:name=".App">
         <activity
-            android:name=".ui.Splash_akt">
+            android:name=".Splash_akt">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -25,7 +25,7 @@
 
         <activity android:name=".MainActivity" />
 
-        <service android:name=".VejrSpeechListenerService" />
+        <service android:name=".service.SOVService" />
 
     </application>
 

@@ -8,11 +8,12 @@ import android.preference.PreferenceManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import dk.nordfalk.snakomvejr.model.SnakOmVejrModel
+import dk.nordfalk.snakomvejr.model.SOVModel
+import dk.nordfalk.snakomvejr.service.SOVService
 
 class App : Application() {
 
-    var model = SnakOmVejrModel()
+    var model = SOVModel()
     val modelLiveData = MutableLiveData<String>()
 
     companion object {
@@ -29,7 +30,7 @@ class App : Application() {
         val gson = Gson()
         val json = PreferenceManager.getDefaultSharedPreferences(this).getString("model", null)
         if (json!=null) {
-            model = gson.fromJson(json, SnakOmVejrModel::class.java)
+            model = gson.fromJson(json, SOVModel::class.java)
         }
 
         model.audioPermissionOk =
@@ -37,18 +38,20 @@ class App : Application() {
 
 
         modelLiveData.observeForever {
-            println("model = ${model.audioPermissionOk} ${model.serviceShouldBeStarted} ${VejrSpeechListenerService.state.isRunning}")
+            println("model = ${model.audioPermissionOk} ${model.serviceShouldBeStarted} ${SOVService.state.isRunning}")
             //Exception().printStackTrace()
-            if (model.serviceShouldBeStarted && model.audioPermissionOk && !VejrSpeechListenerService.state.isRunning) {
+            if (model.serviceShouldBeStarted && model.audioPermissionOk && !SOVService.state.isRunning) {
                 println("App startService")
-                startService(Intent(this, VejrSpeechListenerService::class.java))
+                startService(Intent(this, SOVService::class.java))
             }
 
-            if (VejrSpeechListenerService.state.isRunning && !model.serviceShouldBeStarted) {
+            if (SOVService.state.isRunning && !model.serviceShouldBeStarted) {
                 println("App stopService")
-                stopService(Intent(this, VejrSpeechListenerService::class.java))
+                stopService(Intent(this, SOVService::class.java))
             }
         }
+
+        modelLiveData.value = "" // gennemtving at alle observatører får en ændring ved start
 
 
     }

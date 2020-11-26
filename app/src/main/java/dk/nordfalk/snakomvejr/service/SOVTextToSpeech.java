@@ -1,4 +1,4 @@
-package dk.nordfalk.snakomvejr.ui.s2_test;
+package dk.nordfalk.snakomvejr.service;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
@@ -6,12 +6,12 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.util.Locale;
 
-public class VejrTekstTilTale implements TextToSpeech.OnInitListener {
+public class SOVTextToSpeech implements TextToSpeech.OnInitListener {
     private boolean initialiseret;
     private TextToSpeech tts;
     private String pendingText;
 
-    public VejrTekstTilTale(Context ctx) {
+    public SOVTextToSpeech(Context ctx) {
         tts = new TextToSpeech(ctx, this);
         initialiseret = false;
     }
@@ -36,7 +36,8 @@ public class VejrTekstTilTale implements TextToSpeech.OnInitListener {
             if (initialiseret) {
                 Locale sprog = tts.getVoice().getLocale();
                 if (pendingText!=null) speak(pendingText);
-                else speak("Tekst til tale klar for sproget " + sprog.getDisplayLanguage(sprog));
+                else speak("Klar");
+                //else speak("Tekst til tale klar for sproget " + sprog.getDisplayLanguage(sprog));
             }
         }
     }

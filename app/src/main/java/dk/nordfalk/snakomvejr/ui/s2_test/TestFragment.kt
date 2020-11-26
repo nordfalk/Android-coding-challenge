@@ -10,15 +10,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import dk.nordfalk.snakomvejr.R
-import dk.nordfalk.snakomvejr.VejrSpeechListener
-import dk.nordfalk.snakomvejr.model.WeatherService
+import dk.nordfalk.snakomvejr.service.SOVSpeechListener
+import dk.nordfalk.snakomvejr.service.WeatherDataFetcher
+import dk.nordfalk.snakomvejr.service.SOVTextToSpeech
 import kotlinx.android.synthetic.main.s2_test_fragment.*
 
+
+/**
+ * Beregnet til at prøve tjenesten i forgrunden
+ */
 class TestFragment : Fragment() {
 
 
     private var latest: Long = 0
-    private lateinit var tts: VejrTekstTilTale
+    private lateinit var tts: SOVTextToSpeech
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -31,9 +36,9 @@ class TestFragment : Fragment() {
         val micButton : ImageView = root.findViewById(R.id.button)
 
 
-        val vejrSpeechListener = VejrSpeechListener(requireActivity());
+        val vejrSpeechListener = SOVSpeechListener(requireActivity());
 
-        vejrSpeechListener.speechDataCallback = VejrSpeechListener.Callback {
+        vejrSpeechListener.speechDataCallback = SOVSpeechListener.Callback {
             textView2.setText(it)
             textView2.setHint(if (it==null || it.length==0) "Listening..." else "")
             println("speechDataCallback $it")
@@ -42,7 +47,7 @@ class TestFragment : Fragment() {
                 startVejr()
             }
         }
-        vejrSpeechListener.recognitionEndCallback = VejrSpeechListener.Callback {
+        vejrSpeechListener.recognitionEndCallback = SOVSpeechListener.Callback {
             micButton.setImageResource(R.drawable.ic_baseline_mic_48)
         }
 
@@ -64,7 +69,7 @@ class TestFragment : Fragment() {
             }
         })
 
-        tts = VejrTekstTilTale(requireContext());
+        tts = SOVTextToSpeech(requireContext());
 
 
         return root
@@ -82,7 +87,7 @@ class TestFragment : Fragment() {
         if (now - latest<2000) return  //undgå flere kald kort tid efter hinanden
         latest = now
 
-        val w = WeatherService()
+        val w = WeatherDataFetcher()
         weatherAskedImageView.visibility = View.VISIBLE
         weatherAskedImageView.alpha = 0f;
         weatherAskedImageView.animate().alpha(1f)

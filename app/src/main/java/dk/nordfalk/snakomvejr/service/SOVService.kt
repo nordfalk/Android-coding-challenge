@@ -1,4 +1,4 @@
-package dk.nordfalk.snakomvejr
+package dk.nordfalk.snakomvejr.service
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -14,18 +14,22 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import dk.nordfalk.snakomvejr.model.WeatherService
-import dk.nordfalk.snakomvejr.ui.s2_test.VejrTekstTilTale
+import androidx.lifecycle.MutableLiveData
+import dk.nordfalk.snakomvejr.MainActivity
+import dk.nordfalk.snakomvejr.R
 
-class VejrSpeechListenerService : Service() {
+class SOVService : Service() {
     private var latest: Long = 0
     private val TAG = javaClass.name
     private val handler = Handler(Looper.getMainLooper())
-    private lateinit var tts: VejrTekstTilTale
-    private lateinit var vejrSpeechListener: VejrSpeechListener
+    private lateinit var tts: SOVTextToSpeech
+    private lateinit var sovSpeechListener: SOVSpeechListener
 
     object state {
         var isRunning = false
+
+        val liveData = MutableLiveData<String>()
+        var isListening = false
     }
 
     /**
@@ -50,8 +54,8 @@ class VejrSpeechListenerService : Service() {
     override fun onDestroy() {
         Toast.makeText(this, "$TAG onDestroy", Toast.LENGTH_LONG).show()
         state.isRunning = false
-        vejrSpeechListener.stop()
-        vejrSpeechListener.destroy()
+        sovSpeechListener.stop()
+        sovSpeechListener.destroy()
         tts.destroy()
     }
 
@@ -79,27 +83,31 @@ class VejrSpeechListenerService : Service() {
 
 
     private fun setup() {
-        tts = VejrTekstTilTale(this)
-        vejrSpeechListener = VejrSpeechListener(this);
+        tts = SOVTextToSpeech(this)
+        sovSpeechListener = SOVSpeechListener(this);
 
-        vejrSpeechListener.speechDataCallback = VejrSpeechListener.Callback {
+        sovSpeechListener.speechDataCallback = SOVSpeechListener.Callback {
             println("Service speechDataCallback $it")
             if (it?.toLowerCase()!!.contains("vejr")) {
-                vejrSpeechListener.stop()
+                sovSpeechListener.stop()
                 startVejr()
             }
         }
-        vejrSpeechListener.recognitionEndCallback = VejrSpeechListener.Callback {
+        sovSpeechListener.recognitionEndCallback = SOVSpeechListener.Callback {
             println("vejrSpeechListener.recognitionEndCallback")
+            state.isListening = false
+            state.liveData.value = ""
             //handler.removeCallbacks(startSpeechListener)
-            handler.postDelayed( startSpeechListener, 30000)
+            handler.postDelayed( startSpeechListener, 15000)
         }
     }
 
     private val startSpeechListener: () -> Unit = {
         if (state.isRunning) {
             println("vejrSpeechListener.start()")
-            vejrSpeechListener.start()
+            state.isListening = true
+            state.liveData.value = ""
+            sovSpeechListener.start()
         }
     }
 
@@ -109,7 +117,7 @@ class VejrSpeechListenerService : Service() {
         latest = now
         tts.speak("Øjeblik, henter vejret")
 
-        val w = WeatherService()
+        val w = WeatherDataFetcher()
 
         w.getWeatherData {
             println("w.getWeatherData giver"+  it)

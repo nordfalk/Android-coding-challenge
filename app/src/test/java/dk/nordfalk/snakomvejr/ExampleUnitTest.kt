@@ -1,7 +1,7 @@
 package dk.nordfalk.snakomvejr
 
 import dk.nordfalk.snakomvejr.model.WeatherData
-import dk.nordfalk.snakomvejr.model.WeatherService
+import dk.nordfalk.snakomvejr.service.WeatherDataFetcher
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -17,7 +17,7 @@ class ExampleUnitTest {
         assertEquals(4, 2 + 2)
 
         var wd : WeatherData? = null;
-        val ws = WeatherService();
+        val ws = WeatherDataFetcher();
         val sem = java.util.concurrent.Semaphore(0)
         ws.getWeatherData {
             res: WeatherData -> println("res = $res")

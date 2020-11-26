@@ -1,4 +1,4 @@
-package dk.nordfalk.snakomvejr.ui;
+package dk.nordfalk.snakomvejr;
 
 import android.content.Intent;
 import android.os.Bundle;

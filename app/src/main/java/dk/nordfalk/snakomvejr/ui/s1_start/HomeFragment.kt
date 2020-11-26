@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dk.nordfalk.snakomvejr.App
 import dk.nordfalk.snakomvejr.R
+import dk.nordfalk.snakomvejr.service.SOVService
 import kotlinx.android.synthetic.main.s1_start_fragment.*
 
 class HomeFragment : Fragment() {
@@ -24,15 +25,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        App.instance.modelLiveData.observe(viewLifecycleOwner, {
-            if (App.instance.model.serviceShouldBeStarted) {
-                activeImageView.setImageResource(R.drawable.ic_baseline_cloud_queue_48)
-                activeTextView.text = "Tjenesten er aktiv"
-            } else {
-                activeImageView.setImageResource(R.drawable.ic_baseline_cloud_off_48)
-                activeTextView.text = "Tjenesten er slukket"
-            }
-        })
+        App.instance.modelLiveData.observe(viewLifecycleOwner, { updateUI() })
 
 
         activeImageView.setOnClickListener {
@@ -40,5 +33,22 @@ class HomeFragment : Fragment() {
             App.instance.modelLiveData.value = "";
         }
 
+
+
+        SOVService.state.liveData.observe(viewLifecycleOwner, { updateUI()})
+        updateUI()
+
+    }
+
+    private fun updateUI() {
+        if (App.instance.model.serviceShouldBeStarted) {
+            activeImageView.setImageResource(R.drawable.ic_baseline_cloud_queue_48)
+
+            activeTextView.text = if (SOVService.state.isListening) "Tjenesten er aktiv og lytter" else "Tjenesten er aktiv (og venter)";
+
+        } else {
+            activeImageView.setImageResource(R.drawable.ic_baseline_cloud_off_48)
+            activeTextView.text = "Tjenesten er slukket"
+        }
     }
 }
